@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>onoff.png</file>
+        <file>settings.png</file>
+        <file>sleep.png</file>
+        <file>wave.png</file>
+    </qresource>
+</RCC>
