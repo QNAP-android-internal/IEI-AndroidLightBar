@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_panel_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="User Featured Control Mode" />
+
+    <RadioGroup
+        android:id="@+id/rg_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_panel_title"
+        android:checkedButton="@+id/rb_breath"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_breath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BreathMode" />
+
+        <RadioButton
+            android:id="@+id/rb_wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wave mode" />
+    </RadioGroup>
+
+    <Spinner
+        android:id="@+id/sp_color"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rg_mode"
+        android:spinnerMode="dropdown" />
+
+    <Button
+        android:id="@+id/btn_run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sp_color"
+        android:layout_toEndOf="@+id/sp_color"
+        android:text="Run" />
+
+    <Button
+        android:id="@+id/btn_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_run"
+        android:layout_toEndOf="@+id/sp_color"
+        android:text="Stop" />
+</RelativeLayout>
