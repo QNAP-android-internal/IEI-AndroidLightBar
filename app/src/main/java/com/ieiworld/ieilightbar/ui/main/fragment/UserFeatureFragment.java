@@ -56,16 +56,16 @@ public class UserFeatureFragment extends Fragment {
     }
 
     private void ButtonInit(View root) {
-        Button mBtnRun = root.findViewById(R.id.btn_run);
-        Button mBtnStop = root.findViewById(R.id.btn_stop);
-        RadioGroup mModeRadioGp = root.findViewById(R.id.rg_mode);
-        mBtnRun.setOnClickListener(new View.OnClickListener() {
+        Button btnRun = root.findViewById(R.id.btn_run);
+        Button btnStop = root.findViewById(R.id.btn_stop);
+        RadioGroup modeRadioGp = root.findViewById(R.id.rg_mode);
+        btnRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent();
                 final Bundle b = new Bundle();
                 b.putBoolean(Constant.IS_LED_SERVICE_START, true);
-                if (mModeRadioGp.getCheckedRadioButtonId() == R.id.rb_breath) {
+                if (modeRadioGp.getCheckedRadioButtonId() == R.id.rb_breath) {
                     b.putInt(Constant.LED_MODE, Constant.LED_MODE_BREATH);
                 } else {
                     b.putInt(Constant.LED_MODE, Constant.LED_MODE_WAVE);
@@ -78,7 +78,7 @@ public class UserFeatureFragment extends Fragment {
             }
         });
 
-        mBtnStop.setOnClickListener(new View.OnClickListener() {
+        btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent();

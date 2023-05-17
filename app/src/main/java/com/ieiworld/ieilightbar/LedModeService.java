@@ -13,7 +13,7 @@ public class LedModeService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Boolean serviceStart = intent.getExtras().getBoolean(Constant.IS_LED_SERVICE_START);
+        boolean serviceStart = intent.getExtras().getBoolean(Constant.IS_LED_SERVICE_START);
         if (serviceStart == mServiceStart) {
             return super.onStartCommand(intent, flags, startId);
         }

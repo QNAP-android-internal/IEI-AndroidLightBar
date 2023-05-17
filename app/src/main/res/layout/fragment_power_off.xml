@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Power LED Suspend Control Panel" />
+        android:text="Power LED Power Off Control Panel" />
 
     <LinearLayout
         android:id="@+id/ly_option_panel"
