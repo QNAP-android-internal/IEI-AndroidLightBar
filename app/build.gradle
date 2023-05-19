@@ -9,8 +9,8 @@ android {
         applicationId "com.ieiworld.ieilightbar"
         minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode
+        versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
@@ -51,4 +51,76 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+updateVersion()
+
+def updateVersion() {
+    def propertiesFile = file('build.properties')
+    Properties properties = readProperties(propertiesFile)
+
+    def versionMajor = properties['version_major'].toString().toInteger()
+    def versionMinor = properties['version_minor'].toString().toInteger()
+    def versionPatch = properties['version_patch'].toString().toInteger()
+    def versionBuild = properties['version_build'].toString().toInteger()
+    def versionStore = properties['version_store'].toString().toInteger()
+
+    if (isReleaseTask()) {
+        System.out.println(">>> Building Release...")
+        versionPatch++
+        versionStore++
+        versionBuild = 0
+        properties['version_patch'] = versionPatch.toString()
+        properties['version_store'] = versionStore.toString()
+        properties['version_build'] = versionBuild.toString()
+        writeProperties(propertiesFile, properties)
+    }
+    if (isCompileTask()) {
+        System.out.println(">>> Compiling Source...")
+        versionBuild++
+        properties['version_build'] = versionBuild.toString()
+        writeProperties(propertiesFile, properties)
+    }
+
+    def versionName = "${versionMajor}.${versionMinor}.${versionPatch}"
+    def applicationId = android.defaultConfig.applicationId
+    if (!isReleaseTask()) {
+        versionName = versionName + ".${versionBuild}"
+        applicationId = applicationId + android.buildTypes.debug.applicationIdSuffix
+    }
+    System.out.println(">>> " + project.parent.name + " " + versionName + " (" + versionStore + ") '" + applicationId + "'")
+    android.defaultConfig.versionCode = versionStore
+    android.defaultConfig.versionName = versionName
+}
+
+def isCompileTask() {
+    def tasks = gradle.getStartParameter().getTaskNames()
+    return ':app:generateDebugSources' in tasks || ':app:generateReleaseSources' in tasks ||
+            'generateDebugSources' in tasks || 'generateReleaseSources' in tasks ||
+            ':app:assembleDebug' in tasks
+}
+
+def isReleaseTask() {
+    def tasks = gradle.getStartParameter().getTaskNames()
+    return ':app:assembleRelease' in tasks || 'assembleRelease' in tasks
+}
+
+static Properties readProperties(propertiesFile) {
+    if (propertiesFile.canRead()) {
+        Properties properties = new Properties()
+        def inputStream = new FileInputStream(propertiesFile)
+        properties.load(inputStream)
+        inputStream.close()
+        return properties
+    } else {
+        def message = ">>> Could not read " + propertiesFile.name + " file!"
+        System.err.println(message)
+        throw new GradleException(message)
+    }
+}
+
+def static writeProperties(propertiesFile, properties) {
+    def writer = propertiesFile.newWriter()
+    properties.store(writer, "Build Properties")
+    writer.close()
 }
