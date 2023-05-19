@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager(), getLifecycle()));
 
+        viewPager.setUserInputEnabled(false);
         new TabLayoutMediator(tabLayout, viewPager, true, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
