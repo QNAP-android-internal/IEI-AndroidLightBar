@@ -20,6 +20,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        tabLayoutInit();
+    }
+
+    @Override
+    protected void onPause() {
+        JniMethod.getInstance().clearLightBarLED();
+        super.onPause();
+    }
+
+    private void tabLayoutInit() {
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
@@ -34,11 +44,11 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setText(tab_title[i]);
         }
-    }
-
-    @Override
-    protected void onPause() {
-        JniMethod.getInstance().clearLightBarLED();
-        super.onPause();
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.getTabAt(0).setIcon(R.drawable.settings);
+        tabLayout.getTabAt(1).setIcon(R.drawable.wave);
+        tabLayout.getTabAt(2).setIcon(R.drawable.sleep);
+        tabLayout.getTabAt(3).setIcon(R.drawable.onoff);
     }
 }
