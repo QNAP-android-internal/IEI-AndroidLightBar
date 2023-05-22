@@ -1,57 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tv_panel_title"
+    <LinearLayout
+        android:id="@+id/ly_option_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/rg_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/rb_breath"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb_breath"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BreathMode" />
+
+            <RadioButton
+                android:id="@+id/rb_wave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wave mode" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ly_color_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="User Featured Control Mode" />
-
-    <RadioGroup
-        android:id="@+id/rg_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_panel_title"
-        android:checkedButton="@+id/rb_breath"
         android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/rb_breath"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BreathMode" />
+            android:layout_gravity="center_horizontal"
+            android:text="Color"
+            app:fontFamily="sans-serif-black" />
 
-        <RadioButton
-            android:id="@+id/rb_wave"
+        <Spinner
+            android:id="@+id/sp_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wave mode" />
-    </RadioGroup>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
 
-    <Spinner
-        android:id="@+id/sp_color"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rg_mode"
-        android:spinnerMode="dropdown" />
+        android:layout_below="@+id/ly_option_panel"
+        android:layout_gravity="right"
+        android:layout_marginLeft="460dp"
+        android:layout_toEndOf="@+id/ly_option_panel"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_run"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sp_color"
-        android:layout_toEndOf="@+id/sp_color"
-        android:text="Run" />
+        <Button
+            android:id="@+id/btn_run"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Run"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btn_stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_run"
-        android:layout_toEndOf="@+id/sp_color"
-        android:text="Stop" />
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
 </RelativeLayout>
