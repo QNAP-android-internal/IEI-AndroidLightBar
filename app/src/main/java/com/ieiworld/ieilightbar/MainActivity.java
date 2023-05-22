@@ -1,5 +1,6 @@
 package com.ieiworld.ieilightbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.ieiworld.ieilightbar.ui.main.SectionsPagerAdapter;
+import com.ieiworld.ieilightbar.util.Constant;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +29,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         JniMethod.getInstance().clearLightBarLED();
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        final Intent intent = new Intent();
+        final Bundle b = new Bundle();
+        b.putBoolean(Constant.IS_LED_SERVICE_START, false);
+        intent.setPackage(this.getPackageName());
+        intent.setClass(this, LedModeService.class);
+        stopService(intent);
+        JniMethod.getInstance().clearLightBarLED();
+        super.onDestroy();
     }
 
     private void tabLayoutInit() {
