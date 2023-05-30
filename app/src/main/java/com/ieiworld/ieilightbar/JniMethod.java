@@ -25,4 +25,6 @@ public class JniMethod {
     public native int setLightBarPowerLedSuspendColor(String color);
 
     public native int setLightBarPowerLedPoweroffState(String flag);
+
+    public native String getLightBarPowerLedStatus(String mode);
 }

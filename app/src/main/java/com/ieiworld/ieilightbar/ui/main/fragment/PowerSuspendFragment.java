@@ -1,5 +1,8 @@
 package com.ieiworld.ieilightbar.ui.main.fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +63,28 @@ public class PowerSuspendFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 JniMethod.getInstance().setLightBarPowerLedSuspendColor(Constant.LED_COLORS[mColorIdx]);
+                String saveResult = JniMethod.getInstance().getLightBarPowerLedStatus("suspend");
+                onCreateDialog(saveResult.equals(Constant.LED_COLORS[mColorIdx])).show();
             }
         });
+    }
+
+    private Dialog onCreateDialog(boolean result) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        if (result) {
+            builder.setTitle("Save Success");
+            builder.setMessage("Please reboot and configuration will take effect");
+        } else {
+            builder.setTitle("Save Fail");
+            builder.setMessage("Please check SELinux setting");
+        }
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int id) {
+                dialogInterface.cancel();
+            }
+        });
+
+        return builder.create();
     }
 }
