@@ -1,4 +1,4 @@
-package com.ieiworld.ieilightbar.ui.main.fragment;
+package com.example.lightbartest.ui.main.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
-import com.ieiworld.ieilightbar.JniMethod;
-import com.ieiworld.ieilightbar.R;
+import com.example.lightbartest.JniMethod;
+import com.example.lightbartest.R;
 
 public class UserControlFragment extends Fragment {
     private int mRedBrightness = 0, mGreenBrightness = 0, mBlueBrightness = 0;

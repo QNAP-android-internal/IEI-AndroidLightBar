@@ -1,8 +1,8 @@
-package com.ieiworld.ieilightbar;
+package com.example.lightbartest;
 
 public class JniMethod {
     {
-        System.loadLibrary("ieilightbar");
+        System.loadLibrary("lightbartest");
     }
 
     private static JniMethod instance;

@@ -1,4 +1,4 @@
-package com.ieiworld.ieilightbar;
+package com.example.lightbartest;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.lightbartest.ui.main.SectionsPagerAdapter;
+import com.example.lightbartest.util.Constant;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.ieiworld.ieilightbar.ui.main.SectionsPagerAdapter;
-import com.ieiworld.ieilightbar.util.Constant;
 
 public class MainActivity extends AppCompatActivity {
 

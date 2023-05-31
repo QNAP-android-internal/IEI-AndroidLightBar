@@ -1,4 +1,4 @@
-package com.ieiworld.ieilightbar.ui.main.fragment;
+package com.example.lightbartest.ui.main.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
-import com.ieiworld.ieilightbar.LedModeService;
-import com.ieiworld.ieilightbar.R;
-import com.ieiworld.ieilightbar.util.Constant;
+import com.example.lightbartest.LedModeService;
+import com.example.lightbartest.util.Constant;
+import com.example.lightbartest.R;
 
 public class UserFeatureFragment extends Fragment {
     private int mColorIdx = 0;

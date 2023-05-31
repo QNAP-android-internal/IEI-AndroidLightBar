@@ -1,4 +1,4 @@
-package com.ieiworld.ieilightbar.ui.main;
+package com.example.lightbartest.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -6,10 +6,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.ieiworld.ieilightbar.ui.main.fragment.PowerOffFragment;
-import com.ieiworld.ieilightbar.ui.main.fragment.PowerSuspendFragment;
-import com.ieiworld.ieilightbar.ui.main.fragment.UserControlFragment;
-import com.ieiworld.ieilightbar.ui.main.fragment.UserFeatureFragment;
+import com.example.lightbartest.ui.main.fragment.PowerOffFragment;
+import com.example.lightbartest.ui.main.fragment.PowerSuspendFragment;
+import com.example.lightbartest.ui.main.fragment.UserControlFragment;
+import com.example.lightbartest.ui.main.fragment.UserFeatureFragment;
 
 public class SectionsPagerAdapter extends FragmentStateAdapter {
 

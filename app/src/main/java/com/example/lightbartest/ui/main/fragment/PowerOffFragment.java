@@ -1,4 +1,4 @@
-package com.ieiworld.ieilightbar.ui.main.fragment;
+package com.example.lightbartest.ui.main.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,15 +14,14 @@ import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 
-import com.ieiworld.ieilightbar.JniMethod;
-import com.ieiworld.ieilightbar.R;
-import com.ieiworld.ieilightbar.util.Constant;
+import com.example.lightbartest.JniMethod;
+import com.example.lightbartest.util.Constant;
+import com.example.lightbartest.R;
 
+public class PowerOffFragment extends Fragment {
+    private int mFlagIdx = 0;
 
-public class PowerSuspendFragment extends Fragment {
-    private int mColorIdx = 0;
-
-    public PowerSuspendFragment() {
+    public PowerOffFragment() {
     }
 
     @Override
@@ -33,22 +32,22 @@ public class PowerSuspendFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_power_suspend, container, false);
+        View root = inflater.inflate(R.layout.fragment_power_off, container, false);
         ButtonInit(root);
         SpinnerInit(root);
         return root;
     }
 
     private void SpinnerInit(View root) {
-        Spinner colorSpinner = root.findViewById(R.id.sp_color);
-        ArrayAdapter<CharSequence> colorAdapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.color_array, android.R.layout.simple_spinner_item);
-        colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        colorSpinner.setAdapter(colorAdapter);
-        colorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        Spinner flagSpinner = root.findViewById(R.id.sp_flag);
+        ArrayAdapter<CharSequence> flagAdapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.flag_array, android.R.layout.simple_spinner_item);
+        flagAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        flagSpinner.setAdapter(flagAdapter);
+        flagSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-                mColorIdx = pos;
+                mFlagIdx = pos;
             }
 
             @Override
@@ -62,9 +61,9 @@ public class PowerSuspendFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                JniMethod.getInstance().setLightBarPowerLedSuspendColor(Constant.LED_COLORS[mColorIdx]);
-                String saveResult = JniMethod.getInstance().getLightBarPowerLedStatus("suspend");
-                onCreateDialog(saveResult.equals(Constant.LED_COLORS[mColorIdx])).show();
+                JniMethod.getInstance().setLightBarPowerLedPoweroffState(Constant.LED_FLAGS[mFlagIdx]);
+                String saveResult = JniMethod.getInstance().getLightBarPowerLedStatus("poweroff");
+                onCreateDialog(saveResult.equals(Constant.LED_FLAGS[mFlagIdx])).show();
             }
         });
     }

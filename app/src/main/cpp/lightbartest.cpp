@@ -10,13 +10,13 @@
 #include <fcntl.h>
 #include<android/log.h>
 
-#define LOG_TAG "ieilightbar"
+#define LOG_TAG "lightbartest"
 static char *BAR_PATH_1 = "/sys/bus/i2c/drivers/tlc591xx/1-0060/leds";
 static char *BAR_PATH_2 = "/sys/bus/i2c/drivers/tlc591xx/3-0060/leds";
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_ieiworld_ieilightbar_JniMethod_setLightBarUserLED(JNIEnv *env,
+Java_com_example_lightbartest_JniMethod_setLightBarUserLED(JNIEnv *env,
                                                            jobject thiz,
                                                            jint bar_num,
                                                            jint led_num,
@@ -79,7 +79,7 @@ Java_com_ieiworld_ieilightbar_JniMethod_setLightBarUserLED(JNIEnv *env,
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_ieiworld_ieilightbar_JniMethod_clearLightBarLED(JNIEnv *env, jobject thiz) {
+Java_com_example_lightbartest_JniMethod_clearLightBarLED(JNIEnv *env, jobject thiz) {
 
 
     char *BRIGHTNESS = "0";
@@ -166,7 +166,7 @@ Java_com_ieiworld_ieilightbar_JniMethod_clearLightBarLED(JNIEnv *env, jobject th
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_ieiworld_ieilightbar_JniMethod_setLightBarBreathMode(JNIEnv *env,
+Java_com_example_lightbartest_JniMethod_setLightBarBreathMode(JNIEnv *env,
                                                               jobject thiz,
                                                               jstring specific_color
 ) {
@@ -422,7 +422,7 @@ Java_com_ieiworld_ieilightbar_JniMethod_setLightBarBreathMode(JNIEnv *env,
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_ieiworld_ieilightbar_JniMethod_setLightBarWaveMode(JNIEnv *env,
+Java_com_example_lightbartest_JniMethod_setLightBarWaveMode(JNIEnv *env,
                                                             jobject thiz,
                                                             jstring specific_color) {
     char BRIGHTNESS[4] = {0};
@@ -605,7 +605,7 @@ Java_com_ieiworld_ieilightbar_JniMethod_setLightBarWaveMode(JNIEnv *env,
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_ieiworld_ieilightbar_JniMethod_setLightBarPowerLedSuspendColor(JNIEnv *env,
+Java_com_example_lightbartest_JniMethod_setLightBarPowerLedSuspendColor(JNIEnv *env,
                                                                         jobject thiz,
                                                                         jstring specific_color) {
 
@@ -634,7 +634,7 @@ Java_com_ieiworld_ieilightbar_JniMethod_setLightBarPowerLedSuspendColor(JNIEnv *
 
 extern "C"
 JNIEXPORT jint JNICALL
-Java_com_ieiworld_ieilightbar_JniMethod_setLightBarPowerLedPoweroffState(JNIEnv *env,
+Java_com_example_lightbartest_JniMethod_setLightBarPowerLedPoweroffState(JNIEnv *env,
                                                                          jobject thiz,
                                                                          jstring on_flag) {
     const char *target_onoff_str = env->GetStringUTFChars(on_flag, 0);
@@ -658,7 +658,7 @@ Java_com_ieiworld_ieilightbar_JniMethod_setLightBarPowerLedPoweroffState(JNIEnv 
 
 extern "C"
 JNIEXPORT jstring JNICALL
-Java_com_ieiworld_ieilightbar_JniMethod_getLightBarPowerLedStatus(JNIEnv *env,
+Java_com_example_lightbartest_JniMethod_getLightBarPowerLedStatus(JNIEnv *env,
                                                                   jobject thiz,
                                                                   jstring mode) {
     const char *target_mode_str = env->GetStringUTFChars(mode, 0);

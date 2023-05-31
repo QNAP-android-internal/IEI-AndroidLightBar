@@ -1,10 +1,10 @@
-package com.ieiworld.ieilightbar;
+package com.example.lightbartest;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.ieiworld.ieilightbar.util.Constant;
+import com.example.lightbartest.util.Constant;
 
 public class LedModeService extends Service {
     private Boolean mServiceStart = false;

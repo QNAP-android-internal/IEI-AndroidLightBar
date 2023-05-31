@@ -1,4 +1,4 @@
-package com.ieiworld.ieilightbar.util;
+package com.example.lightbartest.util;
 
 public class Constant {
     public static final String[] LED_COLORS = new String[]{
