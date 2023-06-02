@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        JniMethod.getInstance().clearLightBarLED();
         super.onPause();
     }
 
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         intent.setPackage(this.getPackageName());
         intent.setClass(this, LedModeService.class);
         stopService(intent);
-        JniMethod.getInstance().clearLightBarLED();
         super.onDestroy();
     }
 
