@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">IeiLightBar</string>
-    <string name="toolbar_name">LED Light Bar</string>
+    <string name="app_name">LightBar Example</string>
+    <string name="toolbar_name">LightBar Example</string>
     <string-array name="bar_num_array">
         <item>1</item>
         <item>2</item>
