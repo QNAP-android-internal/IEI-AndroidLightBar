@@ -2,6 +2,10 @@ package com.example.lightbartest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +19,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager;
-    private final String[] tab_title = {"UserControl", "UserFeature", "PowerSuspend", "PowerOff"};
+    private final String[] tabName = {"UserControl", "UserFeature", "PowerSuspend", "PowerOff"};
+    private final int[] tabIcon = {R.drawable.settings, R.drawable.wave, R.drawable.sleep, R.drawable.onoff};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +60,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attach();
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            tabLayout.getTabAt(i).setText(tab_title[i]);
+            tabLayout.getTabAt(i).setCustomView(tabIcon(tabName[i], tabIcon[i]));
         }
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.getTabAt(0).setIcon(R.drawable.settings);
-        tabLayout.getTabAt(1).setIcon(R.drawable.wave);
-        tabLayout.getTabAt(2).setIcon(R.drawable.sleep);
-        tabLayout.getTabAt(3).setIcon(R.drawable.onoff);
+    }
+
+    private View tabIcon(String name, int iconId) {
+        View tab = LayoutInflater.from(this).inflate(R.layout.tab_icon_view, null);
+        TextView textView = (TextView) tab.findViewById(R.id.tabtext);
+        textView.setText(name);
+        ImageView imageView = (ImageView) tab.findViewById(R.id.tabicon);
+        imageView.setImageResource(iconId);
+        return tab;
     }
 }
