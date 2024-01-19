@@ -21,6 +21,8 @@ set(PROJECT_SOURCES
         ledthread.h
         mainwindow.h
         mainwindow.ui
+        LightBar.cpp
+        LightBar.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

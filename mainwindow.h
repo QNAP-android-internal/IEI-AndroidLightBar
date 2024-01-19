@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "LightBar.h"
 #include "ledhandler.h"
 #include "ledthread.h"
 #include <QMainWindow>
@@ -28,6 +29,7 @@ private:
   ledThread *thread;
   QThread *qThread;
   ledHandler *handler;
+  LightBar *lightBarController;
 };
 
 #endif // MAINWINDOW_H

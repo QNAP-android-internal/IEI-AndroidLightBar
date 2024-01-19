@@ -34,21 +34,15 @@ MainWindow::MainWindow(QWidget *parent)
 
   tabWidget->setWindowTitle("LightBar Example");
 
-  tabWidget->addTab(userControlTab,
-                    QIcon(":/settings.png"),
-                    "UserControl");
+  tabWidget->addTab(userControlTab, QIcon(":/settings.png"), "UserControl");
 
-  tabWidget->addTab(userFeatureTab,
-                    QIcon(":/wave.png"),
-                    "UserFeature");
+  tabWidget->addTab(userFeatureTab, QIcon(":/wave.png"), "UserFeature");
 
-  tabWidget->addTab(powerSuspendTab,
-                    QIcon(":/sleep.png"),
-                    "PowerSuspend");
+  tabWidget->addTab(powerSuspendTab, QIcon(":/sleep.png"), "PowerSuspend");
 
-  tabWidget->addTab(powerOffTab,
-                    QIcon(":/onoff.png"),
-                    "PoweOff");
+  tabWidget->addTab(powerOffTab, QIcon(":/onoff.png"), "PoweOff");
+
+  lightBarController = new LightBar();
 }
 
 MainWindow::~MainWindow() {
@@ -56,6 +50,7 @@ MainWindow::~MainWindow() {
   delete thread;
   delete qThread;
   delete handler;
+  delete lightBarController;
 }
 
 QWidget *MainWindow::showUserControlTab() {
@@ -75,42 +70,58 @@ QWidget *MainWindow::showUserControlTab() {
   QSlider *redSlider = new QSlider(Qt::Horizontal, this);
   redSlider->setGeometry(10, 10, 100, 20);
   redSlider->setRange(0, 100);
-
   redSlider->setStyleSheet(
       "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, "
       "x2:1, y2:1, stop:0 #FF0000, stop:1 #FF0000);}");
-  connect(redSlider, &QSlider::sliderMoved, [=](int value) {
-    qDebug() << "red value: " << QString::number(value);
-    qDebug() << "Lightbar Number: " << lightBarComboBox->currentIndex();
-    qDebug() << "Led Number" << ledNumComboBox->currentIndex();
-  });
 
   QSlider *greenSlider = new QSlider(Qt::Horizontal, this);
   greenSlider->setGeometry(10, 10, 100, 20);
+  greenSlider->setRange(0, 100);
   greenSlider->setStyleSheet(
       "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, "
       "x2:1, y2:1, stop:0 #008000, stop:1 #008000);}");
-/*
-  connect(GreenSlider, &QSlider::sliderMoved, [=](int value) {
-    qDebug() << "green value: " << QString::number(value);
-    qDebug() << "Lightbar Number: " << LightBarComboBox->currentIndex();
-    qDebug() << "Led Number" << LedNumComboBox->currentIndex();
-  });
-*/
-  connect(greenSlider, &QSlider::sliderReleased, [=]() {
-      qDebug() << "green value: " << QString::number(greenSlider->value());
-      qDebug() << "Lightbar Number: " << lightBarComboBox->currentIndex();
-      qDebug() << "Led Number" << ledNumComboBox->currentIndex();
-  });
+
   QSlider *blueSlider = new QSlider(Qt::Horizontal, this);
   blueSlider->setGeometry(10, 10, 100, 20);
+  blueSlider->setRange(0, 100);
   blueSlider->setStyleSheet(
       "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, "
       "x2:1, y2:1, stop:0 #0000FF, stop:1 #0000FF);}");
-  connect(blueSlider, &QSlider::sliderMoved, [=](int value) {
-    qDebug() << "blue value: " << QString::number(value);
+
+  connect(redSlider, &QSlider::sliderMoved, [=](int value) {
+    qDebug() << "red value: " << QString::number(redSlider->value());
+    qDebug() << "green value: " << QString::number(greenSlider->value());
+    qDebug() << "blue value: " << QString::number(blueSlider->value());
     qDebug() << "Lightbar Number: " << lightBarComboBox->currentIndex();
     qDebug() << "Led Number" << ledNumComboBox->currentIndex();
+    lightBarController->setLightBarUserLED(
+        lightBarComboBox->currentIndex() + 1,
+        ledNumComboBox->currentIndex() + 1, redSlider->value(),
+        greenSlider->value(), blueSlider->value());
+  });
+
+  connect(greenSlider, &QSlider::sliderMoved, [=](int value) {
+    qDebug() << "red value: " << QString::number(redSlider->value());
+    qDebug() << "green value: " << QString::number(greenSlider->value());
+    qDebug() << "blue value: " << QString::number(blueSlider->value());
+    qDebug() << "Lightbar Number: " << lightBarComboBox->currentIndex();
+    qDebug() << "Led Number" << ledNumComboBox->currentIndex();
+    lightBarController->setLightBarUserLED(
+        lightBarComboBox->currentIndex() + 1,
+        ledNumComboBox->currentIndex() + 1, redSlider->value(),
+        greenSlider->value(), blueSlider->value());
+  });
+
+  connect(blueSlider, &QSlider::sliderMoved, [=](int value) {
+    qDebug() << "red value: " << QString::number(redSlider->value());
+    qDebug() << "green value: " << QString::number(greenSlider->value());
+    qDebug() << "blue value: " << QString::number(blueSlider->value());
+    qDebug() << "Lightbar Number: " << lightBarComboBox->currentIndex();
+    qDebug() << "Led Number" << ledNumComboBox->currentIndex();
+    lightBarController->setLightBarUserLED(
+        lightBarComboBox->currentIndex() + 1,
+        ledNumComboBox->currentIndex() + 1, redSlider->value(),
+        greenSlider->value(), blueSlider->value());
   });
 
   QPushButton *clearBtn = new QPushButton("Clear");
@@ -120,6 +131,7 @@ QWidget *MainWindow::showUserControlTab() {
     redSlider->setValue(0);
     greenSlider->setValue(0);
     blueSlider->setValue(0);
+    lightBarController->clearLightBarLED();
   });
 
   QWidget *tab = new QWidget();
@@ -161,13 +173,15 @@ QWidget *MainWindow::showFeatureTab() {
   QPushButton *runBtn = new QPushButton("Run");
   connect(runBtn, &QPushButton::clicked, runBtn, [=]() {
     if (breathMode->isChecked()) {
-      qDebug() << "breathMode btn is checked!";
+      handler->setMode(0);
     } else if (waveMode->isChecked()) {
-      qDebug() << "waveMode btn is checked!";
+      handler->setMode(1);
     }
-    qDebug() << "color value: " << colorComboBox->currentIndex();
     if (!qThread->isRunning()) {
       handler->setFlag(false);
+      QByteArray colorArray = colorComboBox->currentText().toLocal8Bit();
+      const char *colorString = colorArray.data();
+      handler->setColor(colorString);
       qThread->start();
 
       emit trr(handler);
