@@ -50,7 +50,7 @@ public:
   void setLightBarWaveMode(const char *color);
   int setLightBarPowerLedSuspendColor(const char *color);
   int setLightBarPowerLedPoweroffState(const char *on_flag);
-  const char *getLightBarPowerLedStatus(const char *mode);
+  const char *getLightBarPowerLedStatus(const char *mode, char *status);
   ~LightBar();
 };
 

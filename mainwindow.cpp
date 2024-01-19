@@ -8,6 +8,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QRadioButton>
 #include <QSlider>
@@ -221,7 +222,23 @@ QWidget *MainWindow::showPowerSuspendTab() {
   colorComboBox->setCurrentIndex(0);
 
   QPushButton *saveBtn = new QPushButton("Save");
-  connect(saveBtn, &QPushButton::clicked, saveBtn, [=]() {});
+  connect(saveBtn, &QPushButton::clicked, saveBtn, [=]() {
+    QByteArray colorArray = colorComboBox->currentText().toLocal8Bit();
+    const char *colorString = colorArray.data();
+    lightBarController->setLightBarPowerLedSuspendColor(colorString);
+    const char *suspendString = "suspend";
+    char *saveResult = (char *)malloc(sizeof(char) * 8);
+    lightBarController->getLightBarPowerLedStatus(suspendString, saveResult);
+    QMessageBox *msgBox = new QMessageBox();
+    if (!qstrcmp(saveResult, colorString)) {
+      msgBox->setText(
+          "Save Success. Please reboot and configuration will take effect");
+    } else {
+      msgBox->setText("Save Fail");
+    }
+    qDebug() << "saveResult " << saveResult << "  colorString " << colorString;
+    msgBox->show();
+  });
 
   QWidget *tab = new QWidget();
   QFormLayout *formLayout = new QFormLayout();
@@ -239,7 +256,24 @@ QWidget *MainWindow::showPowerOffTab() {
   switchComboBox->setCurrentIndex(0);
 
   QPushButton *saveBtn = new QPushButton("Save");
-  connect(saveBtn, &QPushButton::clicked, saveBtn, [=]() {});
+  connect(saveBtn, &QPushButton::clicked, saveBtn, [=]() {
+    QByteArray switchArray = switchComboBox->currentText().toLocal8Bit();
+    const char *switchString = switchArray.data();
+    lightBarController->setLightBarPowerLedPoweroffState(switchString);
+    const char *powerOffString = "poweroff";
+    char *saveResult = (char *)malloc(sizeof(char) * 8);
+    lightBarController->getLightBarPowerLedStatus(powerOffString, saveResult);
+    QMessageBox *msgBox = new QMessageBox();
+    if (!qstrcmp(saveResult, switchString)) {
+      msgBox->setText(
+          "Save Success. Please reboot and configuration will take effect");
+    } else {
+      msgBox->setText("Save Fail");
+    }
+    qDebug() << "saveResult " << saveResult << "  powerOffString "
+             << switchString;
+    msgBox->show();
+  });
 
   QWidget *tab = new QWidget();
   QFormLayout *formLayout = new QFormLayout();

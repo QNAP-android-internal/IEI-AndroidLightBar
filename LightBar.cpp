@@ -16,8 +16,6 @@
 #include <android/log.h>
 #endif
 
-#include <QDebug>
-
 #define LOG_TAG "ieilightbar"
 static char *BAR_PATH_1 = "/sys/bus/i2c/drivers/tlc591xx/1-0060/leds";
 static char *BAR_PATH_2 = "/sys/bus/i2c/drivers/tlc591xx/3-0060/leds";
@@ -68,7 +66,8 @@ extern "C" JNIEXPORT jint JNICALL LightBar::
 extern "C" JNIEXPORT jstring JNICALL LightBar::
     Java_com_ieiworld_testprogram_1prebuilt_1lightbar_NativeMethods_getLightBarPowerLedStatus(
         JNIEnv *env, jobject thiz, jstring mode) {
-  return getLightBarPowerLedStatus(mode);
+  char *status = (char *)malloc(sizeof(char) * 8);
+  return getLightBarPowerLedStatus(mode, status);
 }
 #endif
 void LightBar::setLightBarUserLED(int bar_num, int led_num, int red_brightness,
@@ -663,7 +662,7 @@ extern "C" void LightBar::setLightBarWaveMode(const char *color) {
   }
 }
 
-extern "C" int LightBar::setLightBarPowerLedSuspendColor(const char *color) {
+int LightBar::setLightBarPowerLedSuspendColor(const char *color) {
 
   const char *target_color_str =
       color; // env->GetStringUTFChars(specific_color, 0);
@@ -682,13 +681,12 @@ extern "C" int LightBar::setLightBarPowerLedSuspendColor(const char *color) {
     //       __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, "popen failed");
     return 1;
   }
-
   pclose(ps);
 
   return 0;
 }
 
-extern "C" int LightBar::setLightBarPowerLedPoweroffState(const char *on_flag) {
+int LightBar::setLightBarPowerLedPoweroffState(const char *on_flag) {
   const char *target_onoff_str = on_flag; // env->GetStringUTFChars(on_flag, 0);
   FILE *ps;
   char FINAL_CMD[64] = {0};
@@ -708,7 +706,8 @@ extern "C" int LightBar::setLightBarPowerLedPoweroffState(const char *on_flag) {
   return 0;
 }
 
-extern "C" const char *getLightBarPowerLedStatus(const char *mode) {
+const char *LightBar::getLightBarPowerLedStatus(const char *mode,
+                                                char *status) {
   const char *target_mode_str = mode; // env->GetStringUTFChars(mode, 0);
   FILE *ps;
   char FINAL_CMD[64] = {0}, MODE_BUF[32] = {0};
@@ -716,23 +715,22 @@ extern "C" const char *getLightBarPowerLedStatus(const char *mode) {
 
   if (strcmp(target_mode_str, "suspend") == 0)
     sprintf(MODE_BUF, "leds.suspend_color");
-  else if (target_mode_str, "poweroff")
+  else if (strcmp(target_mode_str, "poweroff") == 0)
     sprintf(MODE_BUF, "leds.poweroff_state");
-  else
-    //        return env->NewStringUTF("fail input parameter");
+    else {
+  }
+  //        return env->NewStringUTF("fail input parameter");
 
-    sprintf(FINAL_CMD, "fw_printenv %s", MODE_BUF);
-
+  sprintf(FINAL_CMD, "fw_printenv %s", MODE_BUF);
   if ((ps = popen(FINAL_CMD, "r")) == NULL)
-    //        __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, "popen failed");
+  //        __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, "popen failed");
 
-    fgets(GETS_BUF, sizeof(GETS_BUF), ps);
-
+  fgets(GETS_BUF, sizeof(GETS_BUF), ps);
   if (strcmp(target_mode_str, "suspend") == 0)
     sscanf(GETS_BUF, "leds.suspend_color=%s", &RET_BUF);
   else if (strcmp(target_mode_str, "poweroff") == 0)
     sscanf(GETS_BUF, "leds.poweroff_state=%s", &RET_BUF);
-
+  strcpy(status, RET_BUF);
   pclose(ps);
 
   return RET_BUF;
