@@ -24,6 +24,6 @@ public:
 private:
   LightBar *lightBarController;
   bool flag;
-  const char *color;
+  char *color;
   int mode;
 };
