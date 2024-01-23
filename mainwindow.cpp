@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
+  lightBarController->clearLightBarLED();
   delete ui;
   delete thread;
   delete qThread;
