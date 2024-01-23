@@ -19,11 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
-  QTabWidget *tabWidget = new QTabWidget(); // ui->tabWidget;
-  // tabWidget->setStyleSheet("QTabBar::tab { height: 50px; width: 300px; }");
-  // tabWidget->showFullScreen();
+  QTabWidget *tabWidget = new QTabWidget();
   tabWidget->showMaximized();
-  //     tabWidget->resize(2048, 2048);
   tabWidget->setWindowState(Qt::WindowMaximized);
   tabWidget->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
   tabWidget->setMinimumSize(640, 480);
@@ -62,12 +59,20 @@ QWidget *MainWindow::showUserControlTab() {
   lightBarComboBox->addItem("2", 2);
   lightBarComboBox->setCurrentIndex(0);
 
+  QFont *lightBarComboBoxFont = new QFont();
+  lightBarComboBoxFont->setPointSize(lightBarComboBoxFont->pointSize() + 10);
+  lightBarComboBox->setFont(*lightBarComboBoxFont);
+
   QComboBox *ledNumComboBox = new QComboBox();
   ledNumComboBox->addItem("1", 1);
   ledNumComboBox->addItem("2", 2);
   ledNumComboBox->addItem("3", 3);
   ledNumComboBox->addItem("4", 4);
   ledNumComboBox->setCurrentIndex(0);
+
+  QFont *ledNumComboBoxFont = new QFont();
+  ledNumComboBoxFont->setPointSize(ledNumComboBoxFont->pointSize() + 10);
+  ledNumComboBox->setFont(*ledNumComboBoxFont);
 
   QSlider *redSlider = new QSlider(Qt::Horizontal, this);
   redSlider->setGeometry(10, 10, 100, 20);
@@ -127,6 +132,10 @@ QWidget *MainWindow::showUserControlTab() {
   });
 
   QPushButton *clearBtn = new QPushButton("Clear");
+  QFont *clearBtnFont = new QFont();
+  clearBtnFont->setPointSize(clearBtnFont->pointSize() + 10);
+  clearBtn->setFont(*clearBtnFont);
+
   connect(clearBtn, &QPushButton::clicked, clearBtn, [=]() {
     lightBarComboBox->setCurrentIndex(0);
     ledNumComboBox->setCurrentIndex(0);
@@ -138,21 +147,40 @@ QWidget *MainWindow::showUserControlTab() {
 
   QWidget *tab = new QWidget();
   QFormLayout *formLayout = new QFormLayout();
-  formLayout->addRow("Light Bar", lightBarComboBox);
-  formLayout->addRow("LED Number", ledNumComboBox);
-  formLayout->addRow("Red", redSlider);
-  formLayout->addRow("Green", greenSlider);
-  formLayout->addRow("Blue", blueSlider);
+
+  QLabel *lightBarlabel = new QLabel("Light Bar");
+  lightBarlabel->setStyleSheet(".QLabel { font-size: 20pt; }");
+  formLayout->addRow(lightBarlabel, lightBarComboBox);
+
+  QLabel *ledLabel = new QLabel("LED Number");
+  ledLabel->setStyleSheet(".QLabel { font-size: 20pt; }");
+  formLayout->addRow(ledLabel, ledNumComboBox);
+
+  QLabel *redLabel = new QLabel("Red");
+  redLabel->setStyleSheet(".QLabel { font-size: 20pt; color : red; }");
+  formLayout->addRow(redLabel, redSlider);
+
+  QLabel *greenLabel = new QLabel("Green");
+  greenLabel->setStyleSheet(".QLabel { font-size: 20pt; color : green; }");
+  formLayout->addRow(greenLabel, greenSlider);
+
+  QLabel *blueLabel = new QLabel("Blue");
+  blueLabel->setStyleSheet(".QLabel { font-size: 20pt; color : blue; }");
+  formLayout->addRow(blueLabel, blueSlider);
+
   formLayout->addRow(clearBtn);
+  formLayout->setSpacing(50);
   tab->setLayout(formLayout);
 
   return tab;
 }
 
 QWidget *MainWindow::showFeatureTab() {
-
   QRadioButton *breathMode = new QRadioButton("Breath Mode", this);
+  breathMode->setStyleSheet(".QRadioButton { font-size: 20pt; }");
+
   QRadioButton *waveMode = new QRadioButton("Wave Mode", this);
+  waveMode->setStyleSheet(".QRadioButton { font-size: 20pt; }");
   breathMode->setChecked(true);
 
   QComboBox *colorComboBox = new QComboBox();
@@ -165,6 +193,10 @@ QWidget *MainWindow::showFeatureTab() {
   colorComboBox->addItem("white", 7);
   colorComboBox->setCurrentIndex(0);
 
+  QFont *colorFont = new QFont();
+  colorFont->setPointSize(colorFont->pointSize() + 10);
+  colorComboBox->setFont(*colorFont);
+
   handler = new ledHandler();
   thread = new ledThread();
   qThread = new QThread(this);
@@ -173,6 +205,10 @@ QWidget *MainWindow::showFeatureTab() {
   connect(this, &MainWindow::trr, thread, &ledThread::triggerFunc);
 
   QPushButton *runBtn = new QPushButton("Run");
+  QFont *runBtnFont = new QFont();
+  runBtnFont->setPointSize(runBtnFont->pointSize() + 10);
+  runBtn->setFont(*runBtnFont);
+
   connect(runBtn, &QPushButton::clicked, runBtn, [=]() {
     if (breathMode->isChecked()) {
       handler->setMode(0);
@@ -191,6 +227,10 @@ QWidget *MainWindow::showFeatureTab() {
   });
 
   QPushButton *stopBtn = new QPushButton("Stop");
+  QFont *stopBtnFont = new QFont();
+  stopBtnFont->setPointSize(stopBtnFont->pointSize() + 10);
+  stopBtn->setFont(*stopBtnFont);
+
   connect(stopBtn, &QPushButton::clicked, stopBtn, [=]() {
     if (qThread->isRunning()) {
       handler->setFlag(true);
@@ -203,9 +243,14 @@ QWidget *MainWindow::showFeatureTab() {
   QFormLayout *formLayout = new QFormLayout();
   formLayout->addRow(breathMode);
   formLayout->addRow(waveMode);
-  formLayout->addRow("Color", colorComboBox);
+
+  QLabel *colorLabel = new QLabel("Color");
+  colorLabel->setStyleSheet(".QLabel { font-size: 20pt; }");
+  formLayout->addRow(colorLabel, colorComboBox);
+
   formLayout->addRow(runBtn);
   formLayout->addRow(stopBtn);
+  formLayout->setSpacing(50);
   tab->setLayout(formLayout);
 
   return tab;
@@ -222,7 +267,15 @@ QWidget *MainWindow::showPowerSuspendTab() {
   colorComboBox->addItem("white", 7);
   colorComboBox->setCurrentIndex(0);
 
+  QFont *colorComboBoxFont = new QFont();
+  colorComboBoxFont->setPointSize(colorComboBoxFont->pointSize() + 10);
+  colorComboBox->setFont(*colorComboBoxFont);
+
   QPushButton *saveBtn = new QPushButton("Save");
+  QFont *saveBtnFont = new QFont();
+  saveBtnFont->setPointSize(saveBtnFont->pointSize() + 10);
+  saveBtn->setFont(*saveBtnFont);
+
   connect(saveBtn, &QPushButton::clicked, saveBtn, [=]() {
     QByteArray colorArray = colorComboBox->currentText().toLocal8Bit();
     const char *colorString = colorArray.data();
@@ -243,8 +296,12 @@ QWidget *MainWindow::showPowerSuspendTab() {
 
   QWidget *tab = new QWidget();
   QFormLayout *formLayout = new QFormLayout();
-  formLayout->addRow("Color", colorComboBox);
+
+  QLabel *colorLabel = new QLabel("Color");
+  colorLabel->setStyleSheet(".QLabel { font-size: 20pt; }");
+  formLayout->addRow(colorLabel, colorComboBox);
   formLayout->addRow(saveBtn);
+  formLayout->setSpacing(50);
   tab->setLayout(formLayout);
 
   return tab;
@@ -256,7 +313,15 @@ QWidget *MainWindow::showPowerOffTab() {
   switchComboBox->addItem("off", 2);
   switchComboBox->setCurrentIndex(0);
 
+  QFont *switchComboBoxFont = new QFont();
+  switchComboBoxFont->setPointSize(switchComboBoxFont->pointSize() + 10);
+  switchComboBox->setFont(*switchComboBoxFont);
+
   QPushButton *saveBtn = new QPushButton("Save");
+  QFont *saveBtnFont = new QFont();
+  saveBtnFont->setPointSize(saveBtnFont->pointSize() + 10);
+  saveBtn->setFont(*saveBtnFont);
+
   connect(saveBtn, &QPushButton::clicked, saveBtn, [=]() {
     QByteArray switchArray = switchComboBox->currentText().toLocal8Bit();
     const char *switchString = switchArray.data();
@@ -278,8 +343,11 @@ QWidget *MainWindow::showPowerOffTab() {
 
   QWidget *tab = new QWidget();
   QFormLayout *formLayout = new QFormLayout();
-  formLayout->addRow("Switch", switchComboBox);
+  QLabel *switchLabel = new QLabel("Color");
+  switchLabel->setStyleSheet(".QLabel { font-size: 20pt; }");
+  formLayout->addRow(switchLabel, switchComboBox);
   formLayout->addRow(saveBtn);
+  formLayout->setSpacing(50);
   tab->setLayout(formLayout);
 
   return tab;
