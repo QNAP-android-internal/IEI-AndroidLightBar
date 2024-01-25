@@ -219,8 +219,7 @@ void LightBar::setLightBarBreathMode(const char *color) {
   char BRIGHTNESS[4] = {0};
   char FINAL_PATH[128] = {0};
   const int max_brightness = 100;
-  const char *target_color_str =
-      color; // env->GetStringUTFChars(specific_color, 0);
+  const char *target_color_str = color;
   int led_cnt, brightness_cnt, loop_counter;
   int red_flag, green_flag, blue_flag;
   int file_fd = 0;
@@ -482,8 +481,7 @@ extern "C" void LightBar::setLightBarWaveMode(const char *color) {
   char FINAL_PATH[128] = {0};
   const int max_brightness = 100;
   int led_cnt, wav_cnt, loop_counter;
-  const char *target_color_str =
-      color; // env->GetStringUTFChars(specific_color, 0);
+  const char *target_color_str = color;
   int red_flag, green_flag, blue_flag;
   int file_fd = 0;
 
@@ -664,8 +662,7 @@ extern "C" void LightBar::setLightBarWaveMode(const char *color) {
 
 int LightBar::setLightBarPowerLedSuspendColor(const char *color) {
 
-  const char *target_color_str =
-      color; // env->GetStringUTFChars(specific_color, 0);
+  const char *target_color_str = color;
   FILE *ps;
   char FINAL_CMD[64] = {0};
 
@@ -678,7 +675,6 @@ int LightBar::setLightBarPowerLedSuspendColor(const char *color) {
   sprintf(FINAL_CMD, "fw_setenv leds.suspend_color %s", target_color_str);
 
   if ((ps = popen(FINAL_CMD, "w")) == NULL) {
-    //       __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, "popen failed");
     return 1;
   }
   pclose(ps);
@@ -687,7 +683,7 @@ int LightBar::setLightBarPowerLedSuspendColor(const char *color) {
 }
 
 int LightBar::setLightBarPowerLedPoweroffState(const char *on_flag) {
-  const char *target_onoff_str = on_flag; // env->GetStringUTFChars(on_flag, 0);
+  const char *target_onoff_str = on_flag;
   FILE *ps;
   char FINAL_CMD[64] = {0};
 
@@ -697,7 +693,6 @@ int LightBar::setLightBarPowerLedPoweroffState(const char *on_flag) {
   sprintf(FINAL_CMD, "fw_setenv leds.poweroff_state %s", target_onoff_str);
 
   if ((ps = popen(FINAL_CMD, "w")) == NULL) {
-    //        __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, "popen failed");
     return 1;
   }
 
@@ -708,7 +703,7 @@ int LightBar::setLightBarPowerLedPoweroffState(const char *on_flag) {
 
 const char *LightBar::getLightBarPowerLedStatus(const char *mode,
                                                 char *status) {
-  const char *target_mode_str = mode; // env->GetStringUTFChars(mode, 0);
+  const char *target_mode_str = mode;
   FILE *ps;
   char FINAL_CMD[64] = {0}, MODE_BUF[32] = {0};
   char GETS_BUF[32] = {0}, RET_BUF[8] = {0};
@@ -717,15 +712,13 @@ const char *LightBar::getLightBarPowerLedStatus(const char *mode,
     sprintf(MODE_BUF, "leds.suspend_color");
   else if (strcmp(target_mode_str, "poweroff") == 0)
     sprintf(MODE_BUF, "leds.poweroff_state");
-    else {
+  else {
   }
-  //        return env->NewStringUTF("fail input parameter");
 
   sprintf(FINAL_CMD, "fw_printenv %s", MODE_BUF);
   if ((ps = popen(FINAL_CMD, "r")) == NULL)
-  //        __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, "popen failed");
 
-  fgets(GETS_BUF, sizeof(GETS_BUF), ps);
+    fgets(GETS_BUF, sizeof(GETS_BUF), ps);
   if (strcmp(target_mode_str, "suspend") == 0)
     sscanf(GETS_BUF, "leds.suspend_color=%s", &RET_BUF);
   else if (strcmp(target_mode_str, "poweroff") == 0)
