@@ -716,9 +716,10 @@ const char *LightBar::getLightBarPowerLedStatus(const char *mode,
   }
 
   sprintf(FINAL_CMD, "fw_printenv %s", MODE_BUF);
-  if ((ps = popen(FINAL_CMD, "r")) == NULL)
+  if ((ps = popen(FINAL_CMD, "r")) == NULL) {
+  }
 
-    fgets(GETS_BUF, sizeof(GETS_BUF), ps);
+  fgets(GETS_BUF, sizeof(GETS_BUF), ps);
   if (strcmp(target_mode_str, "suspend") == 0)
     sscanf(GETS_BUF, "leds.suspend_color=%s", &RET_BUF);
   else if (strcmp(target_mode_str, "poweroff") == 0)
