@@ -342,7 +342,7 @@ QWidget *MainWindow::showPowerOffTab() {
 
   QWidget *tab = new QWidget();
   QFormLayout *formLayout = new QFormLayout();
-  QLabel *switchLabel = new QLabel("Color");
+  QLabel *switchLabel = new QLabel("Switch");
   switchLabel->setStyleSheet(".QLabel { font-size: 20pt; }");
   formLayout->addRow(switchLabel, switchComboBox);
   formLayout->addRow(saveBtn);
