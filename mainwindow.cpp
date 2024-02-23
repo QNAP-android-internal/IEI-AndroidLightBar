@@ -76,23 +76,74 @@ QWidget *MainWindow::showUserControlTab() {
   QSlider *redSlider = new QSlider(Qt::Horizontal, this);
   redSlider->setGeometry(10, 10, 100, 20);
   redSlider->setRange(0, 100);
-  redSlider->setStyleSheet(
-      "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, "
-      "x2:1, y2:1, stop:0 #FF0000, stop:1 #FF0000);}");
+  redSlider->setStyleSheet("           QSlider {"
+                           "                min-height: 68px;"
+                           "                 max-height: 68px;"
+                           "                border-radius: 10px;"
+                           "            }"
+                           "            QSlider::groove:horizontal {"
+                           "                height: 40px;"
+                           "                background: #000;"
+                           "                margin: 0 20px;"
+                           "            }"
+                           "            QSlider::handle:horizontal{"
+                           "                background: #f00;"
+                           "                width: 40px;"
+                           "                height: 40px;"
+                           "                margin:-20px -20px;"
+                           "                border-radius:8px;"
+                           "            }"
+                           "            QSlider::sub-page:horizontal{"
+                           "                background:#f90;"
+                           "            }");
 
   QSlider *greenSlider = new QSlider(Qt::Horizontal, this);
   greenSlider->setGeometry(10, 10, 100, 20);
   greenSlider->setRange(0, 100);
-  greenSlider->setStyleSheet(
-      "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, "
-      "x2:1, y2:1, stop:0 #008000, stop:1 #008000);}");
+  greenSlider->setStyleSheet("           QSlider {"
+                             "                min-height: 68px;"
+                             "                max-height: 68px;"
+                             "                border-radius: 10px;"
+                             "            }"
+                             "            QSlider::groove:horizontal {"
+                             "                height: 40px;"
+                             "                background: #000;"
+                             "                margin: 0 20px;"
+                             "            }"
+                             "            QSlider::handle:horizontal{"
+                             "                background: #008000;"
+                             "                width: 40px;"
+                             "                height: 40px;"
+                             "                margin:-20px -20px;"
+                             "                border-radius:8px;"
+                             "            }"
+                             "            QSlider::sub-page:horizontal{"
+                             "                background:#f90;"
+                             "            }");
 
   QSlider *blueSlider = new QSlider(Qt::Horizontal, this);
   blueSlider->setGeometry(10, 10, 100, 20);
   blueSlider->setRange(0, 100);
-  blueSlider->setStyleSheet(
-      "QSlider::handle:horizontal {background: qlineargradient(x1:0, y1:0, "
-      "x2:1, y2:1, stop:0 #0000FF, stop:1 #0000FF);}");
+  blueSlider->setStyleSheet("           QSlider {"
+                            "                min-height: 68px;"
+                            "                max-height: 68px;"
+                            "                border-radius: 10px;"
+                            "            }"
+                            "            QSlider::groove:horizontal {"
+                            "                height: 40px;"
+                            "                background: #000;"
+                            "                margin: 0 20px;"
+                            "            }"
+                            "            QSlider::handle:horizontal{"
+                            "                background: #0000FF;"
+                            "                width: 40px;"
+                            "                height: 40px;"
+                            "                margin:-20px -20px;"
+                            "                border-radius:8px;"
+                            "            }"
+                            "            QSlider::sub-page:horizontal{"
+                            "                background:#f90;"
+                            "            }");
 
   connect(redSlider, &QSlider::sliderMoved, [=](int value) {
     qDebug() << "red value: " << QString::number(redSlider->value());
