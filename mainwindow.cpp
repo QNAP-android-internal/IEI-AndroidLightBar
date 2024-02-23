@@ -145,7 +145,7 @@ QWidget *MainWindow::showUserControlTab() {
                             "                background:#f90;"
                             "            }");
 
-  connect(redSlider, &QSlider::sliderMoved, [=](int value) {
+  connect(redSlider, &QSlider::valueChanged, [=](int value) {
     qDebug() << "red value: " << QString::number(redSlider->value());
     qDebug() << "green value: " << QString::number(greenSlider->value());
     qDebug() << "blue value: " << QString::number(blueSlider->value());
@@ -157,7 +157,7 @@ QWidget *MainWindow::showUserControlTab() {
         greenSlider->value(), blueSlider->value());
   });
 
-  connect(greenSlider, &QSlider::sliderMoved, [=](int value) {
+  connect(greenSlider, &QSlider::valueChanged, [=](int value) {
     qDebug() << "red value: " << QString::number(redSlider->value());
     qDebug() << "green value: " << QString::number(greenSlider->value());
     qDebug() << "blue value: " << QString::number(blueSlider->value());
@@ -169,7 +169,7 @@ QWidget *MainWindow::showUserControlTab() {
         greenSlider->value(), blueSlider->value());
   });
 
-  connect(blueSlider, &QSlider::sliderMoved, [=](int value) {
+  connect(blueSlider, &QSlider::valueChanged, [=](int value) {
     qDebug() << "red value: " << QString::number(redSlider->value());
     qDebug() << "green value: " << QString::number(greenSlider->value());
     qDebug() << "blue value: " << QString::number(blueSlider->value());
